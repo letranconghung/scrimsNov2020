@@ -94,9 +94,9 @@ void opcontrol() {
       BL.move(y+x+BRAKE_POW);
       BR.move(y-x+BRAKE_POW);
     }
-		if(master.get_digital(DIGITAL_R2)){
+		if(master.get_digital(DIGITAL_L1)){
 			// intake with shooting
-			allMove(127, 127, 127, 127, 127);
+			allMove(0, 127, 127, 127, 127);
 		}else if(master.get_digital(DIGITAL_R1)){
 			if(master.get_digital(DIGITAL_L2)){
 				// eject from intake
@@ -107,8 +107,8 @@ void opcontrol() {
 			}
 		}else if(master.get_digital(DIGITAL_L2)){
 			// eject from storage
-			allMove(0, 127, -127, -127, -127);
-		}else if(master.get_digital(DIGITAL_L1)){
+			allMove(0, 127, -127, -127, 127);
+		}else if(master.get_digital(DIGITAL_R2)){
 			// front outtake
 			allMove(-127,-127,-127,-127, -127);
 		}else{
