@@ -7,21 +7,20 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	Motor FL (FLPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 	Motor BL (BLPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-	Motor FR (FRPort, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 	Motor BR (BRPort, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+	Motor lRoller(lRollerPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+	Motor rRoller(rRollerPort, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 	Motor bouncer(bouncerPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 	Motor ejector(ejectorPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 	Motor shooter(shooterPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-	Motor froller(frollerPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+	Motor froller(frollerPort, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 	ADIAnalogIn color(colorPort);
 	ADIDigitalIn limit(limitPort);
 	Controller master(E_CONTROLLER_MASTER);
-	FL.tare_position();
-	FR.tare_position();
 	BL.tare_position();
 	BR.tare_position();
+	// Task mechControlTask (mechControl);
 }
 
 /**
@@ -70,14 +69,15 @@ void autonomous() {}
  */
 void opcontrol() {
 	double BRAKE_POW = 0;
-	Motor FL (FLPort);
 	Motor BL (BLPort);
-	Motor FR (FRPort);
 	Motor BR (BRPort);
+	Motor lRoller(lRollerPort);
+	Motor rRoller(rRollerPort);
 	Motor bouncer(bouncerPort);
 	Motor ejector(ejectorPort);
 	Motor shooter(shooterPort);
 	Motor froller(frollerPort);
+	ADIAnalogIn color(colorPort);
 	Controller master(E_CONTROLLER_MASTER);
 	master.clear();
 	bool tankDrive = false;
@@ -86,20 +86,35 @@ void opcontrol() {
 		if(tankDrive){
       int l = master.get_analog(ANALOG_LEFT_Y);
       int r = master.get_analog(ANALOG_RIGHT_Y);
-      FL.move(l-BRAKE_POW);
       BL.move(l+BRAKE_POW);
-      FR.move(r-BRAKE_POW);
       BR.move(r+BRAKE_POW);
     } else{
       int y = master.get_analog(ANALOG_LEFT_Y);
       int x = master.get_analog(ANALOG_RIGHT_X);
-      FL.move(y+x-BRAKE_POW);
       BL.move(y+x+BRAKE_POW);
-      FR.move(y-x-BRAKE_POW);
       BR.move(y-x+BRAKE_POW);
     }
-		if(master.get_digital_new_press(DIGITAL_A)) load(127);
-		if(master.get_digital_new_press(DIGITAL_B)) eject(127);
+		if(master.get_digital(DIGITAL_R2)){
+			// intake with shooting
+			allMove(127, 127, 127, 127, 127);
+		}else if(master.get_digital(DIGITAL_R1)){
+			if(master.get_digital(DIGITAL_L2)){
+				// eject from intake
+				allMove(127, 127, -127, 0, 127);
+			}else{
+				// intake without shooting
+				allMove(127, 127, 127, 0, 127);
+			}
+		}else if(master.get_digital(DIGITAL_L2)){
+			// eject from storage
+			allMove(0, 127, -127, -127, -127);
+		}else if(master.get_digital(DIGITAL_L1)){
+			// front outtake
+			allMove(-127,-127,-127,-127, -127);
+		}else{
+			// stop bro
+			allMove(0,0,0,0,0);
+		}
 		pros::delay(20);
 	}
 }

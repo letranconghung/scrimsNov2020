@@ -60,9 +60,7 @@ void visionBaseMove(int sig){
  * cutoff time for the movement
  */
 void visionWaitBase(double cutoff){
-  Motor FL (FLPort);
   Motor BL (BLPort);
-  Motor FR (FRPort);
   Motor BR (BRPort);
   Controller master (E_CONTROLLER_MASTER);
   double start = millis();
@@ -72,17 +70,13 @@ void visionWaitBase(double cutoff){
   while((fabs(errorX) > X_LEEWAY || fabs(errorW) > W_LEEWAY) && (millis()-start) < cutoff){
     delay(20);
   }
-  FL.move(0);
   BL.move(0);
-  FR.move(0);
   BR.move(0);
   useVision = false;
 }
 /** Vision base movement Task. */
 void visionBaseControl(void * ignore){
-  Motor FL (FLPort);
   Motor BL (BLPort);
-  Motor FR (FRPort);
   Motor BR (BRPort);
   Controller master(E_CONTROLLER_MASTER);
   int i = 0;
@@ -118,9 +112,7 @@ void visionBaseControl(void * ignore){
       /** motor capping */
       powerL = abscap(powerL, VISION_MAX_POW);
       powerR = abscap(powerR, VISION_MAX_POW);
-      FL.move(powerL);
       BL.move(powerL);
-      FR.move(powerR);
       BR.move(powerR);
       /** debugging */
       if(VISION_DEBUG_MODE == 2 && (++i % 10 == 0)){

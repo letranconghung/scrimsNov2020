@@ -6,9 +6,7 @@
 #define DEFAULT_TURN_KP 0.4
 #define DEFAULT_TURN_KD 0.1
 /** declare motors */
-Motor FL (FLPort);
 Motor BL (BLPort);
-Motor FR (FRPort);
 Motor BR (BRPort);
 /**
  * targetEncdL & targetEncdR are target values for the 2 side encoders.
@@ -213,9 +211,7 @@ void waitBase(double cutoff){
   /** while the encoder values are not within DISTANCE_LEEWAY from the target encoder values yet, or time has not run out */
 	while(fabs(targetEncdL - getEncdVals(true).first) > DISTANCE_LEEWAY && fabs(targetEncdR - getEncdVals(true).second) > DISTANCE_LEEWAY && (millis()-start) < cutoff) delay(20);
   /** stop the motors */
-	FL.move(0);
 	BL.move(0);
-	FR.move(0);
 	BR.move(0);
 }
 /** boolean flag for whether there is a cap on base motor powers */
@@ -259,14 +255,10 @@ void pauseBase(bool pause = true){
 void timerBase(double powL, double powR, double time){
   double start = millis();
   pauseBase();
-  FL.move(powL);
   BL.move(powL);
-  FR.move(powR);
   BR.move(powR);
   while(millis() - start < time) delay(20);
-	FL.move(0);
 	BL.move(0);
-	FR.move(0);
 	BR.move(0);
 	pauseBase(false);
 }
@@ -281,9 +273,7 @@ void timerBase(double powL, double powR, double time){
 void powerBase(double powL, double powR){
   double start = millis();
   pauseBase();
-  FL.move(powL);
   BL.move(powL);
-  FR.move(powR);
   BR.move(powR);
 }
 /**
@@ -301,8 +291,6 @@ void resetCoords(double x, double y, double angleDeg){
   /** set position */
   position.setCoords(x, y, angleDeg);
   /** tare all motors */
-  FL.tare_position();
-	FR.tare_position();
 	BL.tare_position();
 	BR.tare_position();
   /** reset target encoder values */
@@ -356,9 +344,7 @@ void baseMotorControl(void * ignore){
       }
       /** if baseMotorControl is not paused */
       if(!basePaused){
-        FL.move(powerL);
         BL.move(powerL);
-        FR.move(powerR);
         BR.move(powerR);
       }
       /** debugging */
