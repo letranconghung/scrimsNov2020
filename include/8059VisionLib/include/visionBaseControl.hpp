@@ -9,7 +9,7 @@
  * 2: error, targetPower, power
  * 3: Selected odometry
  */
-#define VISION_DEBUG_MODE 3
+#define VISION_DEBUG_MODE 0
 /**
  * W_LEEWAY and X_LEEWAY are the distances (in Vision Sensor units) within which from the target
  * the robot would register that it has arrived at the target.

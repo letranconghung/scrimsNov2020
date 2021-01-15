@@ -38,6 +38,7 @@ void baseOdometry(void * ignore){
     double sumEncdChange = encdChangeL + encdChangeR;
     double deltaAngle = (encdChangeL - encdChangeR)/baseWidth;
     position.angle += deltaAngle;
+
     /** update x- and y-coordinates */
     if(deltaAngle == 0) {
       /** handle 0 as the formula involves division by deltaAngle */

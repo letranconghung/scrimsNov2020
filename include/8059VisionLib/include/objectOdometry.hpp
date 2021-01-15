@@ -6,6 +6,7 @@
 #define SIG_RED_BALL 1
 #define SIG_BLUE_BALL 2
 #define SIG_GREEN_FLAG 3
+extern const VisionCoordinates TARG_BALL;
 extern VisionObject redBall;
 extern VisionObject blueBall;
 extern VisionObject greenFlag;

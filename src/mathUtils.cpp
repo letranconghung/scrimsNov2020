@@ -13,6 +13,7 @@ double boundRad(double rad){
   if(res < 0) res += twoPI;
   return res;
 }
+
 /**
  * Bound an angle in radians within 0<=angle<360.
  * @param  deg

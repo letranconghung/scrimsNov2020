@@ -12,11 +12,11 @@
 #define shooterPort 12
 #define frollerPort 20
 /** sensor ports */
-#define encdL_port 1
-#define encdR_port 7
+#define encdL_port 7
+#define encdR_port 2
 #define colorPort 6
 #define limitPort 1
 #define visBallport 21
-#define visFlagport 2 //bad
+#define visFlagport 1 //18
 extern bool useVision;
 #endif

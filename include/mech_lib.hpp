@@ -8,7 +8,10 @@ void shooterMove(double pow);
 void frollerMove(double pow);
 void load(double pow);
 void eject(double pow);
-void intake(double pow);
-void outtake(double pow);
+void shoot(double pow);
+void moveTillLoad(double pow);
+void moveBlindIntake(double pow, double time, double extra);
+void blindIntake(double pow, double time);
 void allMove(double rollersPow, double bouncerPow, double ejectorPow, double shooterPow, double frollerPow);
+void controllerPrinter(void *ignore);
 #endif

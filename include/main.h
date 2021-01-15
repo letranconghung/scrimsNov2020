@@ -45,6 +45,7 @@
 #include "8059VisionLib/api.hpp"
 #include "globals.hpp"
 #include "mech_lib.hpp"
+#include "auton_sets.hpp"
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
  * Motor, you can use the namespace with the following commented out line.

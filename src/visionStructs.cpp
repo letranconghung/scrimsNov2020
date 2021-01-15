@@ -65,7 +65,7 @@ void VisionCoordinates::getFromObject(pros::vision_object_s_t visObj){
 }
 /** Print VisionCoordinates to the terminal. */
 void VisionCoordinates::print(){
-    printf("sig: %s \t x: %d \t w: %d \n", sigIdToString[this->sig].c_str(), this->x, this -> w);
+    printf("sig: %s \t x: %d \t y: %d \t w: %d \t h: %d \n", sigIdToString[this->sig].c_str(), this->x, this->y, this->w, this->h);
 }
 /** Print VisionCoordinates to the master controller. */
 void VisionCoordinates::printMaster(){
